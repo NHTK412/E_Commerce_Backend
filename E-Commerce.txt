@@ -1,0 +1,59 @@
+ecommerce-backend/
+├── src/
+│   ├── config/               # Cấu hình kết nối DB, Elasticsearch, Stripe, Socket.IO
+│   │   ├── db.js
+│   │   ├── elastic.js
+│   │   ├── stripe.js
+│   │   └── socket.js
+│   │
+│   ├── models/               # Mongoose Models
+│   │   ├── User.js
+│   │   ├── Product.js
+│   │   ├── Category.js
+│   │   ├── CartItem.js
+│   │   ├── Order.js
+│   │   ├── OrderItem.js
+│   │   ├── Payment.js
+│   │   ├── Notification.js
+│   │   └── Recommendation.js
+│   │
+│   ├── controllers/          # Logic xử lý route
+│   │   ├── authController.js
+│   │   ├── productController.js
+│   │   ├── cartController.js
+│   │   ├── orderController.js
+│   │   ├── paymentController.js
+│   │   └── searchController.js
+│   │
+│   ├── routes/               # Định nghĩa route
+│   │   ├── auth.routes.js
+│   │   ├── product.routes.js
+│   │   ├── cart.routes.js
+│   │   ├── order.routes.js
+│   │   ├── payment.routes.js
+│   │   └── search.routes.js
+│   │
+│   ├── middlewares/          # Middleware custom (auth, error, validate...)
+│   │   ├── auth.js
+│   │   ├── errorHandler.js
+│   │   └── validate.js
+│   │
+│   ├── services/             # Tầng xử lý chuyên biệt (recommendation, elastic...)
+│   │   ├── elasticService.js
+│   │   ├── stripeService.js
+│   │   └── recommendationService.py     <-- chạy bằng Python (spawn từ Node nếu cần)
+│   │
+│   ├── utils/                # Tiện ích chung: gửi mail, gen token...
+│   │   ├── sendEmail.js
+│   │   └── generateToken.js
+│   │
+│   ├── sockets/              # Sự kiện WebSocket
+│   │   └── orderEvents.js
+│   │
+│   ├── app.js                # Khởi tạo express + middleware
+│   └── server.js             # Socket.IO + HTTP + DB
+│
+├── .env                      # Biến môi trường
+├── .gitignore
+├── package.json
+└── README.md
