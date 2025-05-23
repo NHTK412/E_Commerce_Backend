@@ -25,9 +25,9 @@
 | `full_name`    | Họ tên người nhận              |
 | `phone`        | Số điện thoại người nhận       |
 | `address_line` | Địa chỉ cụ thể                 |
-| `city`         | Thành phố                      |
-| `province`     | Tỉnh/thành phố                 |
-| `postal_code`  | Mã bưu điện                    |
+| `city`         | Tình/ Thành PhốPhố                      |
+| `district`     | Quận / HuyệnHuyện                 |
+| `ward`  | Phường / Xã                    |
 | `is_default`   | Là địa chỉ mặc định (đúng/sai) |
 | `created_at`   | Thời điểm tạo địa chỉ          |
 

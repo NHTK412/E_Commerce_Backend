@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongooseDelete = require('mongoose-delete');
+// const mongooseDelete = require('mongoose-delete');
 
 const addressSchema = new mongoose.Schema({
     user_id: {
@@ -27,22 +27,28 @@ const addressSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    province: {
+    district: {
         type: String,
         required: true,
         trim: true
     },
-    postal_code: {
+    ward: {
         type: String,
         required: true,
         trim: true
     },
+    // Bỏ qua trường postal_code vì không cần thiết
+    // postal_code: { 
+    //     type: String,
+    //     required: true,
+    //     trim: true
+    // },
     is_default: {
         type: Boolean,
         default: false
     }
 }, { timestamps: true });
 
-addressSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
+// addressSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
 
 module.exports = mongoose.model('Address', addressSchema);

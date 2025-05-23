@@ -49,7 +49,7 @@ const createUserController = async (req, res) => {
         userData.password_hash = await bcrypt.hash(userData.password, salt);
         delete userData.password;
 
-        const newUser = await userSevice.createUserService(userData);
+        const newUser = await userService.createUserService(userData);
         if (!newUser) {
             return res.status(500).json({ message: 'Error creating user' });
         }
