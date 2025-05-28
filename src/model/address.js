@@ -37,18 +37,11 @@ const addressSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    // Bỏ qua trường postal_code vì không cần thiết
-    // postal_code: { 
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },
     is_default: {
         type: Boolean,
         default: false
     }
 }, { timestamps: true });
 
-// addressSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
 
 module.exports = mongoose.model('Address', addressSchema);
