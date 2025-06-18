@@ -17,7 +17,7 @@ const getAddressByIdService = async (userId) => {
 
 const createAddressService = async (addressData) => {
     try {
-        const newAddress = address.create(addressData);
+        const newAddress = await address.create(addressData);
         return newAddress;
     } catch (error) {
         console.error('Error creating address in database:', error);

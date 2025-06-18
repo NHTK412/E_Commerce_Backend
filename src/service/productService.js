@@ -25,19 +25,10 @@ const getProductsByCategoryService = async (categoryId) => {
 
 const createProductService = async (productData, image) => {
     try {
-        // productData.image_url = image.path;
         productData.image_path = image.filename;
 
-        // console.log("Image: ", image);
-        // const path = image.path;
-
-        // const data = await fs.readFile(path);
-        // const base64Image = `data:${image.mimetype};base64,${data.toString('base64')}`;
-
-
-        // productData.image_url = base64Image;
-
-        // console.log('Creating product with data:', productData);
+        
+        
         const newProduct = new product(productData);
         await newProduct.save();
         // console.log('Product created successfully:', newProduct);

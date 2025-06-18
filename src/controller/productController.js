@@ -1,5 +1,5 @@
 const productService = require('../service/productService');
-
+const categoryService = require('../service/categoryService');
 
 const getAllProducts = async (req, res) => {
     try {
@@ -39,6 +39,18 @@ const createProduct = async (req, res) => {
     try {
         // console.log('Creating product with data:', req.body);
         // console.log('Creating product with file:', req.file);
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image file is required' });
+        }
+        const categoryId = req.body.category_id;
+        if (!categoryId) {
+            return res.status(400).json({ message: 'Category ID is required' });
+        }
+        const categoryExists = await categoryService.getCategoryByIdService(categoryId);
+        if (!categoryExists) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+
         const newProduct = await productService.createProductService(req.body, req.file);
 
         if (!newProduct) {
@@ -57,6 +69,15 @@ const updateProduct = async (req, res) => {
         // const productId = req.params.id;
         // const updateData = req.body;
         // const image = req.file;
+        const categoryId = req.body.category_id;
+        if (!categoryId) {
+            return res.status(400).json({ message: 'Category ID is required' });
+        }
+        const categoryExists = await categoryService.getCategoryByIdService(categoryId);
+        if (!categoryExists) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+        
         const updateProduct = await productService.updateProductService(req.params.id, req.body, req.file);
         if (!updateProduct) {
             return res.status(404).json({ message: 'Product not found' });
@@ -84,7 +105,7 @@ const deleteProduct = async (req, res) => {
 const deleteMultipleProducts = async (req, res) => {
     try {
         const productIds = req.body.productIds; // Assuming product IDs are sent in the request body
-        
+
         if (!Array.isArray(productIds) || productIds.length === 0) {
             return res.status(400).json({ message: 'Invalid product IDs' });
         }

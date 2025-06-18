@@ -1,5 +1,16 @@
 const category = require('../model/category');
 
+const getCategoryByIdService = async (categoryId) => {
+    try {
+        const categoryData = await category.findById(categoryId);
+        return categoryData;
+
+    } catch (error) {
+        console.error('Error fetching category by ID:', error);
+        return null;
+    }
+}
+
 
 const getAllCategoriesService = async () => {
     try {
@@ -52,5 +63,6 @@ module.exports = {
     getAllCategoriesService,
     createCategoryService,
     updateCategoryService,
-    deleteCategoryService
+    deleteCategoryService,
+    getCategoryByIdService
 }
