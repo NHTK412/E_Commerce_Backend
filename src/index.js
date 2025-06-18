@@ -4,6 +4,7 @@ const path = require('path');
 const connectDB = require('./config/database');
 const apiRouter = require('./router/apiRouter');
 
+
 const app = express();
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
@@ -11,6 +12,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,'public'))); // VD: http://localhost:8080/image/NodeJs.png
+
+
+app.use('/images', express.static(path.join(__dirname, 'public'))); 
+
+
+
 
 // Middleware to log requests
 app.use((req, res, next) => {
