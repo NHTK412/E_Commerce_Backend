@@ -1,4 +1,5 @@
 const userService = require('../service/userService');
+const cartService = require('../service/cartService');
 const bcrypt = require('bcrypt');
 
 const getUserByIdController = async (req, res) => {
@@ -10,9 +11,8 @@ const getUserByIdController = async (req, res) => {
         }
         const user = await userService.getUserByIdService(userId);
         if (!user) {
-            return res.status(404).json({ message: 'User not found'});
+            return res.status(404).json({ message: 'User not found' });
         }
-
         res.status(200).json(user);
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -29,8 +29,8 @@ const createUserController = async (req, res) => {
         const existingUser = await userService.getUserByEmailService(userData.email);
         console.log('Checking for existing user:', existingUser);
         if (existingUser) {
-            return res.status(409).json({ 
-                message: 'User already exists' , 
+            return res.status(409).json({
+                message: 'User already exists',
                 success: false
             });
         }
@@ -38,7 +38,7 @@ const createUserController = async (req, res) => {
         const UserSoftDelete = await userService.getUserByEmailSoftDeleteService(userData.email);
         console.log('Checking for UserSoftDelete:', UserSoftDelete);
         if (UserSoftDelete) {
-            return res.status(409).json({ 
+            return res.status(409).json({
                 message: 'User Soft Delete',
                 success: false
             });
@@ -54,10 +54,20 @@ const createUserController = async (req, res) => {
             return res.status(500).json({ message: 'Error creating user' });
         }
         console.log('User created successfully:', newUser);
-        res.status(201).json({ 
+
+        // Create a cart for the new user
+        // const newCart = await cartService.createCartService(newUser.id);
+
+        // if (!newCart) {
+        //     const deletedUser = await userService.deleteUserService(newUser.id);
+            
+        //     return res.status(500).json({ message: 'Error creating cart for user' });
+        // }
+
+        res.status(201).json({
             message: 'User created successfully',
             success: true,
-            user: newUser 
+            user: newUser
         });
 
     } catch (error) {
@@ -74,11 +84,11 @@ const getUserByEmailController = async (req, res) => {
             return res.status(400).json({ message: 'Email is required' });
         }
 
-        const user = await userService.getUserByEmailService(email);  
+        const user = await userService.getUserByEmailService(email);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        
+
 
         res.status(200).json(user);
     } catch (error) {
@@ -122,16 +132,24 @@ const updateUserController = async (req, res) => {
     }
 };
 
-const deleteUserController = async (req, res) => {
+const deleteSoftUserController = async (req, res) => {
     try {
         const userId = req.params.id;
         if (!userId) {
             return res.status(400).json({ message: 'User ID is required' });
         }
-        const deletedUser = await userService.deleteUserService(userId);
+        const deletedUser = await userService.deleteSoftUserService(userId);
         if (!deletedUser) {
             return res.status(404).json({ message: 'User not found', user: deletedUser });
         }
+        // Delete the user's cart
+        // console.log("userId",userId)
+        // const deletedCart = await cartService.deleteSoftCartByUserIdService(userId);
+
+        // if (!deletedCart) {
+        //     return res.status(500).json({ message: 'Error deleting user cart' });
+        // }
+
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
         console.error('Error deleting user:', error);
@@ -146,6 +164,6 @@ module.exports = {
     getUserByEmailController,
     getAllUsersController,
     updateUserController,
-    deleteUserController
+    deleteSoftUserController,
 };
 

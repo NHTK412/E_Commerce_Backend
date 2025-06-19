@@ -2,8 +2,11 @@ const user = require('../model/user');
 
 const getUserByIdService = async (userId) => {
     try {
-
         const userData = await user.findById(userId);
+        if (!userData)
+        {
+            return null;
+        }
         return {
             id: userData._id,
             name: userData.name,
@@ -15,7 +18,7 @@ const getUserByIdService = async (userId) => {
     }
     catch (error) {
         console.error('Error fetching user from database:', error);
-        return null
+        return null;
     }
 };
 
@@ -34,7 +37,7 @@ const createUserService = async (userData) => {
     }
     catch (error) {
         console.error('Error creating user in database:', error);
-        return null
+        return null;
     }
 };
 
@@ -42,7 +45,7 @@ const getUserByEmailSoftDeleteService = async (email) => {
     try {
         const userData = await user.findOneDeleted({ email });
         if (!userData) {
-            return null;
+            return null;;
         }
         return {
             id: userData._id,
@@ -54,7 +57,7 @@ const getUserByEmailSoftDeleteService = async (email) => {
         };
     } catch (error) {
         console.error('Error fetching user from database:', error);
-        return null
+        return null;
     }
 };
 
@@ -62,7 +65,7 @@ const getUserByEmailService = async (email) => {
     try {
         const userData = await user.findOne({ email });
         if (!userData) {
-            return null;
+            return null;;
         }
         return {
             id: userData._id,
@@ -75,7 +78,7 @@ const getUserByEmailService = async (email) => {
     }
     catch (error) {
         console.error('Error fetching user from database:', error);
-        return null
+        return null;
     }
 };
 
@@ -93,7 +96,7 @@ const getAllUsersService = async () => {
     }
     catch (error) {
         console.error('Error fetching all users from database:', error);
-        return null
+        return null;
     }
 };
 
@@ -113,15 +116,17 @@ const updateUserService = async (userId, userData) => {
         };
     } catch (error) {
         console.error('Error updating user in database:', error);
-        return null
+        return null;
     }
 };
 
-const deleteUserService = async (userId) => {
+const deleteSoftUserService = async (userId) => {
     try {
         // const deletedUser = await user.findByIdAndDelete(userId);
         // Xóa mềm
         const deletedUser = await user.deleteById(userId);
+
+        
         return {
             id: deletedUser._id,
             name: deletedUser.name,
@@ -132,9 +137,18 @@ const deleteUserService = async (userId) => {
         };
     } catch (error) {
         console.error('Error deleting user from database:', error);
-        return null
+        return null;
     }
 };
+
+const deleteUserService = async (userId) => {
+    try {
+
+    } catch (error) {
+        console.error('Error deleting user from database:', error);
+        return null;
+    }
+}
 
 module.exports = {
     getUserByIdService,
@@ -143,6 +157,7 @@ module.exports = {
     getUserByEmailSoftDeleteService,
     getAllUsersService,
     updateUserService,
-    deleteUserService
+    deleteUserService,
+    deleteSoftUserService
 };
 

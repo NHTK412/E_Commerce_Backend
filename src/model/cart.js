@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const mongooseDelete = require('mongoose-delete');
 
-const categorySchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
+        unique: true
     },
     created_at: {
         type: Date,
@@ -13,6 +14,10 @@ const categorySchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-categorySchema.plugin(mongooseDelete, { overrideMethods: 'all' });
+// categorySchema.plugin(mongooseDelete, {
+//     deletedAt: true,
+//     deleted: true,
+//     overrideMethods: 'all'
+// });
 
-module.exports = mongoose.model('Cart', categorySchema);
+module.exports = mongoose.model('Cart', cartSchema);

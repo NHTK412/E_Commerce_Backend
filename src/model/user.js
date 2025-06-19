@@ -21,8 +21,25 @@ const userSchema = new mongoose.Schema({
         enum: ['customer', 'admin', 'vendor'],
         default: 'customer'
     },
+    // cart_id: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Cart',
+    // }
 }, { timestamps: true });
 
+
+userSchema.post("save", async (doc, next) => {
+    try {
+        const cart = require("./cart")
+        await cart.create({
+            user_id: doc._id
+        })
+        next()
+    } catch (error) {
+        console.log("Bị lỗi khi tạo giỏi hàng - ", error);
+        next(error);
+    }
+})
 
 userSchema.plugin(mongooseDelete, {
     deletedAt: true,
